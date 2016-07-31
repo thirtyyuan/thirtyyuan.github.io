@@ -22,7 +22,7 @@
 <meta property="og:site_name" content="thirtyyuan's Den">
 <meta property="og:description" content="为什么写这篇文章今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。但是因为权限问题而不能真机调试，真的很痛苦，今天正好解决了这个小问题，于是打算从新手（我）的角度写篇文章总结下，帮助大家尽快学会 runtime permission 的使用">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNbRwgw1f6at9zc0otj30qo0fkabo.jpg">
-<meta property="og:updated_time" content="2016-07-31T09:21:19.000Z">
+<meta property="og:updated_time" content="2016-07-31T10:34:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 6.0 Runtime Permission">
 <meta name="twitter:description" content="为什么写这篇文章今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。但是因为权限问题而不能真机调试，真的很痛苦，今天正好解决了这个小问题，于是打算从新手（我）的角度写篇文章总结下，帮助大家尽快学会 runtime permission 的使用">
@@ -178,24 +178,111 @@
 <li>不使用 runtime permission 的应用有极大可能在使用需要权限的功能时引起应用奔溃。具体原因（见文末第二个参考链接）不再分析，总之请尽快学习使用 runtime permission ，为你的职业操守和情怀加分，不将就！</li>
 </ol>
 <h2 id="实现思路分析"><a href="#实现思路分析" class="headerlink" title="实现思路分析"></a>实现思路分析</h2><p>这里以获取定位权限后进行定位操作为例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public void MainActivity extands Activity &#123;</div><div class="line"></div><div class="line">	//自定义权限请求码，以便于后面对请求码对应的权限作出反应</div><div class="line">	public static final int LOCATION_REQUEST_CODE = 7 ;</div><div class="line">	</div><div class="line">	@Override</div><div class="line">	protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">		super.onCreate(savedInstanceState);</div><div class="line">		setContentView(R.layout.activity_main)</div><div class="line">		</div><div class="line">		if (SDKVersion &lt; 23) &#123;</div><div class="line">			//直接进行权限已经被授予后的操作，如；</div><div class="line">			locationProvider();</div><div class="line">		&#125; else &#123;</div><div class="line">			//检查权限是否已经授予</div><div class="line">			if (granted) &#123;</div><div class="line">				//进行权限已被授予后的操作，如；</div><div class="line">				locationProvider();</div><div class="line">			&#125; else &#123;</div><div class="line">				//请求授予权限</div><div class="line">				requestPermission(...);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>无论权限被同意还是拒绝，系统都会回调这个方法,有必要的话可以用它来通知用户权限授予的结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public void MainActivity extands Activity &#123;</div><div class="line"></div><div class="line">	//上面代码相同，省略</div><div class="line">	...</div><div class="line">	</div><div class="line">	@Override</div><div class="line">    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) &#123;</div><div class="line">    	switch (requestCode) &#123;</div><div class="line">			case LOCATION_REQUEST_CODE:</div><div class="line">    	    	//如果权限请求被拒绝，则 grantResults 通常为空</div><div class="line">    	        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) &#123;</div><div class="line">   	             	// 进行权限已被授予后的操作，如：</div><div class="line">   	            	 locationProvider();</div><div class="line">   	         	&#125; else &#123;</div><div class="line">  	            	// 权限未被授予时的操作，如：</div><div class="line">   	            	Toast.makeText(MainActivity.this, &quot;OH...Permission has been Denied.&quot;, Toast.LENGTH_SHORT).show();</div><div class="line">          		&#125;</div><div class="line">   		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在 activity 销毁时对已获取的权限操作进行销毁，如此处我们调用的 locationManager：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected  void onDestroy() &#123;</div><div class="line">	super.onDestroy();</div><div class="line">	if (locationManager != null) &#123;</div><div class="line">		locationManager.removeUpdates(locationListener);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后，别忘记在 AndroidManifest.xml 中注册权限：<br><code>&lt;uses-permission android:name=&quot;android.permission.ACCESS_FINE_LOCATION&quot;/&gt;</code><br>觉得有用的话，欢迎关注、评论及 Github 上的follow、star :P</p>
+<pre><code>public void MainActivity extands Activity {
+
+    //自定义权限请求码，以便于后面对请求码对应的权限作出反应
+    public static final int LOCATION_REQUEST_CODE = 7 ;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main)
+
+        if (SDKVersion &lt; 23) {
+            //直接进行权限已经被授予后的操作，如；
+            locationProvider();
+        } else {
+            //检查权限是否已经授予
+            if (granted) {
+                //进行权限已被授予后的操作，如；
+                locationProvider();
+            } else {
+                //请求授予权限
+                requestPermission(...);
+            }
+        }
+    }
+}
+</code></pre><p>无论权限被同意还是拒绝，系统都会回调这个方法,有必要的话可以用它来通知用户权限授予的结果：</p>
+<pre><code>public void MainActivity extands Activity {
+
+    //上面代码相同，省略
+    ...
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE:
+                //如果权限请求被拒绝，则 grantResults 通常为空
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        // 进行权限已被授予后的操作，如：
+                        locationProvider();
+                    } else {
+                      // 权限未被授予时的操作，如：
+                       Toast.makeText(MainActivity.this, &quot;OH...Permission has been Denied.&quot;, Toast.LENGTH_SHORT).show();
+                  }
+           }
+    }
+}
+</code></pre><p>在 activity 销毁时对已获取的权限操作进行销毁，如此处我们调用的 locationManager：</p>
+<pre><code>@Override
+protected  void onDestroy() {
+    super.onDestroy();
+    if (locationManager != null) {
+        locationManager.removeUpdates(locationListener);
+    }
+}
+</code></pre><p>最后，别忘记在 AndroidManifest.xml 中注册权限：<br><code>&lt;uses-permission android:name=&quot;android.permission.ACCESS_FINE_LOCATION&quot;/&gt;</code><br>觉得有用的话，欢迎关注、评论及 Github 上的follow、star :P</p>
 <hr>
 <ul>
-<li>07/31/2016 16:55 更新：新增多权限请求同时申请：<br>将checkPermission()改为如下内容</li>
+<li>07/31/2016 16:55 更新：新增多权限请求同时申请：<br>先在manifest中注册以下权限，再将checkPermission()改为如下内容</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public void checkPermission()&#123;</div><div class="line">	//判断当前Activity是否已经获得了以下权限</div><div class="line">	if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED</div><div class="line">    		|| ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) &#123;</div><div class="line">            requestMultiplePermissions();</div><div class="line">        &#125; else &#123;</div><div class="line">            locationProvider();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>注意观察 requestPermission() 的第二个参数是个字符串数组，由此可知可以同时添加多个权限，只需要将权限所对应的字符串添加到数组里面即可。增加如下方法，用于同时添加多个权限：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private void requestMultiplePermissions() &#123;</div><div class="line">        String[] permissions = &#123;Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,</div><div class="line">                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,</div><div class="line">                Manifest.permission.GET_ACCOUNTS&#125;;</div><div class="line">        ActivityCompat.requestPermissions(this, permissions, MULTIPLE_PERMISSION_ASK_CODE);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>public void checkPermission(){
+    //判断当前Activity是否已经获得了以下权限
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestMultiplePermissions();
+        } else {
+            locationProvider();
+        }
+}
+</code></pre><p>注意观察 requestPermission() 的第二个参数是个字符串数组，由此可知可以同时添加多个权限，只需要将权限所对应的字符串添加到数组里面即可。增加如下方法，用于同时添加多个权限：</p>
+<pre><code>private void requestMultiplePermissions() {
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.GET_ACCOUNTS};
+        ActivityCompat.requestPermissions(this, permissions, MULTIPLE_PERMISSION_ASK_CODE);
+}
+</code></pre><ul>
 <li>07/31/2016 17:03 更新：有权限被拒绝时弹窗提醒<br>若我们所需要的权限（必要权限）被拒绝时，必将影响用户体验，因此在回调权限申请的结果函数中设置权限被否决的弹窗提醒，点击 「OK」则再次弹出申请权限对话框，点击取消…我也不好再不要脸的去申请了…</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) &#123;</div><div class="line">    switch (requestCode) &#123;</div><div class="line">        case MULTIPLE_PERMISSION_ASK_CODE: &#123;</div><div class="line">            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED</div><div class="line">                        || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) &#123;</div><div class="line">                //申请失败，可以继续向用户解释</div><div class="line">                AlertDialog.Builder builder = new AlertDialog.Builder(this);</div><div class="line">                builder.setTitle(&quot;Help&quot;)</div><div class="line">                        .setMessage(&quot;Need some permission to run this app.&quot;)</div><div class="line">                        .setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onClick(DialogInterface dialog, int which) &#123;</div><div class="line">                                checkPermission();</div><div class="line">                            &#125;</div><div class="line">                        &#125;)</div><div class="line">                        .setNegativeButton(&quot;Cancel&quot;, new DialogInterface.OnClickListener() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onClick(DialogInterface dialog, int which) &#123;</div><div class="line">                            &#125;</div><div class="line">                        &#125;)</div><div class="line">                        .show();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实例代码：<a href="https://github.com/thirtyyuan/Android-exercise/tree/master/Runtime%20Permission" target="_blank" rel="external">LocationTest</a></p>
+<pre><code>@Override
+public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MULTIPLE_PERMISSION_ASK_CODE: {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    //申请失败，可以继续向用户解释
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle(&quot;Help&quot;)
+                            .setMessage(&quot;Need some permission to run this app.&quot;)
+                            .setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    checkPermission();
+                                }
+                            })
+                            .setNegativeButton(&quot;Cancel&quot;, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+            }
+        }
+    }
+}
+</code></pre><p>实例代码：<a href="https://github.com/thirtyyuan/Android-exercise/tree/master/Runtime%20Permission" target="_blank" rel="external">LocationTest</a></p>
 <p>参考资料：Google android 官方文档：<a href="https://developer.android.com/training/permissions/requesting.html" target="_blank" rel="external">Requesting Permissions at Run Time</a>；郭霖大神的「第一行代码」及<a href="http://chuansong.me/n/355262951150" target="_blank" rel="external">「教你如何在Android 6.0上创建系统悬浮窗」</a>；微凉一季的<a href="http://jijiaxin89.com/2015/08/30/Android-s-Runtime-Permission/" target="_blank" rel="external">「Android M 新的运行时权限开发者需要知道的一切」</a></p>
 <p>其他推荐：郭霖的<a href="http://blog.csdn.net/guolin_blog/article/details/51336415" target="_blank" rel="external">「Android提醒微技巧，你真的了解Dialog、Toast和Snackbar吗？」</a></p>
 
