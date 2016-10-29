@@ -5,17 +5,17 @@
   
   <title>Android 6.0 Permission | thirtyyuan&#39;s Den</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。">
+  <meta name="description" content="为什么写这篇文章今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 6.0 Permission">
 <meta property="og:url" content="http://thirtyyuan.github.io/2016/07/29/Android-6-0-Permission/index.html">
 <meta property="og:site_name" content="thirtyyuan's Den">
-<meta property="og:description" content="今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。">
+<meta property="og:description" content="为什么写这篇文章今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006tNbRwgw1f6at9zc0otj30qo0fkabo.jpg">
-<meta property="og:updated_time" content="2016-10-29T16:22:58.000Z">
+<meta property="og:updated_time" content="2016-10-29T16:34:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 6.0 Permission">
-<meta name="twitter:description" content="今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。">
+<meta name="twitter:description" content="为什么写这篇文章今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006tNbRwgw1f6at9zc0otj30qo0fkabo.jpg">
   
     <link rel="alternative" href="/atom.xml" title="thirtyyuan&#39;s Den" type="application/atom+xml">
@@ -34,6 +34,10 @@
       <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   
   <!-- 加载特效 -->
+  
+ <script src="/js/pace.js"></script>
+<link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+
     <script src="/js/pace.js"></script>
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
@@ -144,7 +148,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/ROM/" style="font-size: 10px;">ROM</a> <a href="/tags/Runtime-Permission/" style="font-size: 10px;">Runtime Permission</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/初见/" style="font-size: 10px;">初见</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/权限管理/" style="font-size: 10px;">权限管理</a> <a href="/tags/环境搭建/" style="font-size: 10px;">环境搭建</a>
+                        <a href="/tags/JDK/" style="font-size: 10px;">JDK</a> <a href="/tags/ROM/" style="font-size: 10px;">ROM</a> <a href="/tags/Runtime-Permission/" style="font-size: 10px;">Runtime Permission</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/初见/" style="font-size: 10px;">初见</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/权限管理/" style="font-size: 10px;">权限管理</a> <a href="/tags/环境搭建/" style="font-size: 10px;">环境搭建</a>
                     </div>
                 </section>
                 
@@ -260,8 +264,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。<br><a id="more"></a></p>
-<h2 id="为什么写这篇文章"><a href="#为什么写这篇文章" class="headerlink" title="为什么写这篇文章"></a>为什么写这篇文章</h2><p>今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。但是因为权限问题而不能真机调试，真的很痛苦，今天正好解决了这个小问题，于是打算从新手（我）的角度写篇文章总结下，帮助大家尽快学会 runtime permission 的使用。</p>
+        <h2 id="为什么写这篇文章"><a href="#为什么写这篇文章" class="headerlink" title="为什么写这篇文章"></a>为什么写这篇文章</h2><p>今天总算是到达了会用 runtime permission 的阶段了，之前我是很惧怕需要用到 runtime permission 的，因为尝试了几次都以失败告终，网上大部分教程都深涩难懂，甚至中文比英文难懂。<a id="more"></a>但是因为权限问题而不能真机调试，真的很痛苦，今天正好解决了这个小问题，于是打算从新手（我）的角度写篇文章总结下，帮助大家尽快学会 runtime permission 的使用。</p>
 <h2 id="什么是-runtime-permission"><a href="#什么是-runtime-permission" class="headerlink" title="什么是 runtime permission"></a>什么是 runtime permission</h2><p>官方文档解释：「从 android 6.0 开始，用户授予应用的权限不是在安装应用时授予，而是在应用运行时，需要用到该权限时授予」，如下图:<br><img src="http://ww1.sinaimg.cn/large/006tNbRwgw1f6at9zc0otj30qo0fkabo.jpg" alt="android 权限授予差别"><br>简单的说，应用所需要的权限授予不再是流氓的让用户在安装应用时全盘接受，否则无法安装该应用，而是在用户使用该应用的某项功能时，明显的弹窗询问用户是否允许应用获取该功能所需要的权限。总之，它是为了让 android 6.0 以上的系统更安全而生的。</p>
 <h2 id="为什么要会用-runtime-permission"><a href="#为什么要会用-runtime-permission" class="headerlink" title="为什么要会用 runtime permission"></a>为什么要会用 runtime permission</h2><ol>
 <li>作为开发者，应该尽可能为用户着想，给用户最安全、最舒适的体验，因此我们应该避免流氓的让用户在安装应用时必须同意，否则不给用户使用应用；</li>
@@ -311,7 +314,7 @@
         <p><span>本文标题:</span><a href="/2016/07/29/Android-6-0-Permission/">Android 6.0 Permission</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 thirtyyuan 的个人博客">thirtyyuan</a></p>
         <p><span>发布时间:</span>2016年07月29日 - 19时50分</p>
-        <p><span>最后更新:</span>2016年10月30日 - 00时22分</p>
+        <p><span>最后更新:</span>2016年10月30日 - 00时34分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/29/Android-6-0-Permission/" title="Android 6.0 Permission">http://thirtyyuan.github.io/2016/07/29/Android-6-0-Permission/</a>
             <span class="copy-path" data-clipboard-text="原文: http://thirtyyuan.github.io/2016/07/29/Android-6-0-Permission/　　作者: thirtyyuan" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -337,7 +340,7 @@
     </a>
   
   
-    <a href="/2016/07/07/android开发——环境搭建/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/07/10/android开发——环境搭建/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">android开发——环境搭建</div>
       <strong class="article-nav-caption">></strong>
     </a>
@@ -426,12 +429,12 @@
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/07/07/android开发——环境搭建/" title="下一篇: android开发——环境搭建">
+            <a href="/2016/07/10/android开发——环境搭建/" title="下一篇: android开发——环境搭建">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/10/30/android-刷机教程——一加手机2/">android 手机刷机教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/Android-6-0-Permission/">Android 6.0 Permission</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/android开发——环境搭建/">android开发——环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/hello-world/">你好，世界。</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/10/30/android-刷机教程——一加手机2/">android 手机刷机教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/29/Android-6-0-Permission/">Android 6.0 Permission</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/10/android开发——环境搭建/">android开发——环境搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/hello-world/">你好，世界。</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
