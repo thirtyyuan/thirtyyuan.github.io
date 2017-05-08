@@ -216,7 +216,7 @@
     <link href="http://thirtyyuan.github.io/2016/06/04/%E7%BB%99-Arduino-%E6%8F%92%E4%B8%8A%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E7%BF%85%E8%86%80/"/>
     <id>http://thirtyyuan.github.io/2016/06/04/给-Arduino-插上互联网的翅膀/</id>
     <published>2016-06-04T09:20:40.000Z</published>
-    <updated>2017-01-04T09:49:25.000Z</updated>
+    <updated>2017-01-04T09:58:32.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="挑选联网模块"><a href="#挑选联网模块" class="headerlink" title="挑选联网模块"></a>挑选联网模块</h2><p>Arduino联网根据联网是否需要在wifi附近分为两种不同形式：wifi模块（附近需要wifi源），GPRS模块（通过手机卡的GPRS信号联网）。具体需要用何种模块，需要看你产品的使用环境，如果是在家、厂里或附近（一般不超过20米，否则效果不好），则可以使用wifi模块，这样就不需要多买一张SIM卡。产品若要工作在室外，则不得不使用GPRS模块了。<a id="more"></a><br>推荐产品：<br>    wifi模块：ESP8266、W5100；<br>    GPRS模块：SIM900；（单买各模块的邮费较贵，建议几人合资购买或攒一些模块一起购买，店家不作推荐）<br>    最后，别忘记最重要的一点！购买USB转TTL模块（或者买直接封装成产品，有类似U盘外壳的那种）</p>
 <h2 id="接线"><a href="#接线" class="headerlink" title="接线"></a>接线</h2><p>到货后，第一件事便是测试啦！是不是有点小激动？Mac的童鞋注意啦，平时让你 OS X 用得嗨，现在可就没那么便宜你了，先装个 Windows7 或 10 再说（请使用 VMware，最好装win10，因为win7有的是精简版，驱动各种装不了，连正版 Arduino 驱动都没发装），因为要用的软件在 Mac 没有或没有那么方便。废话少说，先接线（网上接线教程较乱，简直神坑，让我接了这个又接那个，到底接哪个才是对的！？此文就是来改变这种局面的）：<br>ESP8266引脚图：<br><img src="https://ww3.sinaimg.cn/large/006y8lVajw1fbeq1dglvdj30n8122go9.jpg" alt="ESP8266引脚图"></p>
