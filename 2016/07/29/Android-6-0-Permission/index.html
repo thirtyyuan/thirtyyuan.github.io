@@ -58,7 +58,7 @@
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             
-            <img lazy-src="/img/conan.jpg" class="js-avatar">
+            <img lazy-src="/img/head.jpg" class="js-avatar">
             
         </a>
 
@@ -127,11 +127,15 @@
                             
                                 <a class="fl github" target="_blank" href="https://github.com/thirtyyuan" title="github">github</a>
                             
+                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/5635548/brad-yuan" title="stackoverflow">stackoverflow</a>
+                            
                                 <a class="fl weibo" target="_blank" href="http://weibo.com/5172859382" title="weibo">weibo</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/thirtyyuan" title="twitter">twitter</a>
                             
                                 <a class="fl facebook" target="_blank" href="https://www.facebook.com/thirtyyuan" title="facebook">facebook</a>
                             
-                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/5635548/brad-yuan" title="stackoverflow">stackoverflow</a>
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
                             
                         </ul>
                     </nav>
@@ -183,7 +187,7 @@
         <header id="header" class="inner">
             <a href="/" class="profilepic">
                 
-                    <img lazy-src="/img/conan.jpg" class="js-avatar">
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
                 
             </a>
             <hgroup>
@@ -205,11 +209,15 @@
                     
                         <a class="github" target="_blank" href="https://github.com/thirtyyuan" title="github">github</a>
                     
+                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/5635548/brad-yuan" title="stackoverflow">stackoverflow</a>
+                    
                         <a class="weibo" target="_blank" href="http://weibo.com/5172859382" title="weibo">weibo</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/thirtyyuan" title="twitter">twitter</a>
                     
                         <a class="facebook" target="_blank" href="https://www.facebook.com/thirtyyuan" title="facebook">facebook</a>
                     
-                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/5635548/brad-yuan" title="stackoverflow">stackoverflow</a>
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
                     
                 </div>
             </nav>
@@ -298,6 +306,52 @@
 <p>参考资料：Google android 官方文档：<a href="https://developer.android.com/training/permissions/requesting.html" target="_blank" rel="external">Requesting Permissions at Run Time</a>；郭霖大神的「第一行代码」及<a href="http://chuansong.me/n/355262951150" target="_blank" rel="external">「教你如何在Android 6.0上创建系统悬浮窗」</a>；微凉一季的<a href="http://jijiaxin89.com/2015/08/30/Android-s-Runtime-Permission/" target="_blank" rel="external">「Android M 新的运行时权限开发者需要知道的一切」</a></p>
 <p>其他推荐：郭霖的<a href="http://blog.csdn.net/guolin_blog/article/details/51336415" target="_blank" rel="external">「Android提醒微技巧，你真的了解Dialog、Toast和Snackbar吗？」</a></p>
 
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()" title="关闭">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
       
     </div>
     
@@ -392,25 +446,21 @@
 
 
     
-      <div class="duoshuo" id="comments">
-    <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/07/29/Android-6-0-Permission/" data-title="Android 6.0 Permission" data-url="http://thirtyyuan.github.io/2016/07/29/Android-6-0-Permission/"></div>
-    <!-- 多说评论框 end -->
-    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+        <section id="comments">
+  <div id="disqus_thread"></div>
     <script type="text/javascript">
-    var duoshuoQuery = {short_name:"thirtyyuan"};
-    (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = '/js/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0] 
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-    </script>
-    <!-- 多说公共JS代码 end -->
-</div>
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'thirtyyuan'; // required: replace example with your forum shortname
 
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
     
 
 
