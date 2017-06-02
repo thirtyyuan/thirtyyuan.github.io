@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thirtyyuan.github.io/"/>
-  <updated>2016-10-30T10:44:53.000Z</updated>
+  <updated>2017-06-02T09:09:37.000Z</updated>
   <id>http://thirtyyuan.github.io/</id>
   
   <author>
@@ -14,6 +14,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android踩坑笔记</title>
+    <link href="http://thirtyyuan.github.io/2017/06/02/Android%E8%B8%A9%E5%9D%91%E7%AC%94%E8%AE%B0/"/>
+    <id>http://thirtyyuan.github.io/2017/06/02/Android踩坑笔记/</id>
+    <published>2017-06-02T08:06:55.000Z</published>
+    <updated>2017-06-02T09:09:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>此篇仅为自己记录下日常开发中所遇到的问题及部分解决方法，若有人能从中受益自然更好。 
+</code></pre><h2 id="adb-系列"><a href="#adb-系列" class="headerlink" title="adb 系列"></a>adb 系列</h2><h3 id="adb-can’t-ack"><a href="#adb-can’t-ack" class="headerlink" title="adb can’t ack"></a>adb can’t ack</h3><p>问题描述：启动 android studio 时报错：“adb can’t ack”：</p>
+<p>解决方法：关闭 as 和 genymotion，先启动 as，完成后再启动 genymotion。</p>
+<h3 id="‘adb-exe-start-server’-failed"><a href="#‘adb-exe-start-server’-failed" class="headerlink" title="‘adb.exe,start-server’ failed"></a>‘adb.exe,start-server’ failed</h3><p>问题描述：’adb.exe,start-server’ failed — run manually if necessary</p>
+<p>解决方法：“tools” —&gt; “android” —&gt; “enable add integration”</p>
+<h3 id="commond-not-found-adb"><a href="#commond-not-found-adb" class="headerlink" title="commond not found adb"></a>commond not found adb</h3><p>问题描述：终端运行 adb 命令时提示 <code>commond not found adb</code></p>
+<p>解决方法：</p>
+<blockquote>
+<ol>
+<li>启动终端。</li>
+<li>进入当前用户的 home 目录。<br> 在命令行输入 <code>echo $HOME</code></li>
+<li>创建 .bash_profile 文件。<br> 命令行输入 <code>touch .bash_profile</code></li>
+<li>打开 .bash_profile 文件。<br> 命令行输入<code>open -e .bash_profile</code> 此命令行输入完毕后，会自动弹出 .bash_profile 文件的编辑窗口<br> 在.bash_profile 文件中输入 <code>export PATH=/Users/您的用户名/文件路径/platform-tools/:$PATH</code><br> 注意：如果需要添加多个路径到PATH下时，需要用“:”(英文的冒号)隔开。因为android和adb这些命令        是在不同的文件夹中的，格式是：PATH=${PATH}:路径1:路径2、另外，如果指定多个路径，结尾就不用    写:$PATH了。例如：<br> <code>export PATH=${PATH}:/Users/ShaneChen/Documents/android-sdk-macosx/platform-tools:/Users/    ShaneChen/Documents/android-sdk-macosx/tools</code></li>
+<li>保存文件。<br> 直接关闭 .bash_profile 文件，即可自动保存您输入的内容。 </li>
+<li>更新刚配置的环境变量<br> 在命令行中输入 <code>source .bash_profile</code>，<strong>注意：以后再出现该错误提示，只需直接执行本句即可</strong></li>
+<li>验证配置是否成功<br> 终端输入 <code>adb</code>，如果没有出现<code>adb: command not found</code>,而是出现 adb 的命令参数解释。则表明环境变量配置成功。</li>
+</ol>
+</blockquote>
+<h2 id="Manifest-系列"><a href="#Manifest-系列" class="headerlink" title="Manifest 系列"></a>Manifest 系列</h2><h3 id="requestWindowFeature-Window-FEATURE-NO-TITLE"><a href="#requestWindowFeature-Window-FEATURE-NO-TITLE" class="headerlink" title="requestWindowFeature(Window.FEATURE_NO_TITLE)"></a>requestWindowFeature(Window.FEATURE_NO_TITLE)</h3><p>问题描述：main activity 中 “requestWindowFeature(Window.FEATURE_NO_TITLE);”不能生效，改动 manifest 文件中“android：theme”导致程序崩溃</p>
+<p>解决方法：as在创建 “ empty activity ” 时，会默认 “ MainActivity ” 继承自 “AppCompatActivity”, 改为“Activity即可”。</p>
+<h2 id="Android-新特性"><a href="#Android-新特性" class="headerlink" title="Android 新特性"></a>Android 新特性</h2><h3 id="运行时权限"><a href="#运行时权限" class="headerlink" title="运行时权限"></a>运行时权限</h3><p>详见<a href="https://thirtyyuan.github.io/2016/07/29/Android-6-0-Permission/#more">「Android 6.0 Permission」</a>,包括多权限申请、权限解释弹窗、特殊权限申请。</p>
+<h3 id="FloatingActionButton-隐藏与显示"><a href="#FloatingActionButton-隐藏与显示" class="headerlink" title="FloatingActionButton 隐藏与显示"></a>FloatingActionButton 隐藏与显示</h3><p>问题描述：为了使其在用户上滑滚动列表时自动隐藏，下滑列表时显示。</p>
+<p>解决方法：自定义类继承 CoordinatorLayout.Behavior，并泛型成 FloatingActionButton，复写 onNestedScroll( ) 或 onNestedScroll( ) 方法，后者滚动时反应较快，推荐使用后者。<br>具体代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">public class FloatingActionButtonScrollBehavior extends CoordinatorLayout.Behavior&lt;FloatingActionButton&gt; &#123;</div><div class="line"></div><div class="line">    public FloatingActionButtonScrollBehavior(Context context, AttributeSet attrs) &#123;</div><div class="line">        super();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">//    停止滑动时调用</div><div class="line">    @Override</div><div class="line">    public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, final FloatingActionButton child, View target) &#123;</div><div class="line">        super.onStopNestedScroll(coordinatorLayout, child, target);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">//    滑动时有延迟，不推荐使用</div><div class="line">//    @Override</div><div class="line">//    public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) &#123;</div><div class="line">//        //child -&gt; Floating Action Button</div><div class="line">//        if (dyConsumed &gt; 0) &#123;</div><div class="line">//            Log.d(&quot;Scrolling&quot;,&quot;Up&quot;);</div><div class="line">//            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();</div><div class="line">//            int fab_bottomMargin = layoutParams.bottomMargin;</div><div class="line">//            child.animate().translationY(child.getHeight() + fab_bottomMargin).setInterpolator(new LinearInterpolator()).start();</div><div class="line">//        &#125; else if (dyConsumed &lt; 0) &#123;</div><div class="line">//            Log.d(&quot;Scrolling&quot;,&quot;down&quot;);</div><div class="line">//            child.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();</div><div class="line">//        &#125;</div><div class="line">//    &#125;</div><div class="line"></div><div class="line">//    滑动时延迟小，推荐使用</div><div class="line">    @Override</div><div class="line">    public void onNestedPreScroll (CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dx, int dy, int[] consumed) &#123;</div><div class="line">        //child -&gt; Floating Action Button</div><div class="line">        if (dy &gt; 0) &#123;</div><div class="line">            Log.d(&quot;Scrolling&quot;,&quot;Up&quot;);</div><div class="line">            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();</div><div class="line">            int fab_bottomMargin = layoutParams.bottomMargin;</div><div class="line">            child.animate().translationY(child.getHeight() + fab_bottomMargin).setInterpolator(new LinearInterpolator()).start();</div><div class="line">        &#125; else if (dy &lt; 0) &#123;</div><div class="line">            Log.d(&quot;Scrolling&quot;,&quot;down&quot;);</div><div class="line">            child.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">//    开始滑动时调用</div><div class="line">    @Override</div><div class="line">    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) &#123;</div><div class="line">        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后在带有 FloatingActionButton 的 xml 文件中配置中做如下配置：</p>
+<ol>
+<li>总布局中添加<code>xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</code></li>
+<li>FloatingActionButton 组件属性中添加 <code>app:layout_behavior=&quot;your.packagename.FloatingActionButtonScrollBehavior&quot;</code>,包名部分更改为自己包名即可。</li>
+</ol>
+<p>参考资料：Android 官方文档：<a href="https://developer.android.google.cn/reference/android/support/design/widget/CoordinatorLayout.Behavior.html#onNestedPreScroll(android.support.design.widget.CoordinatorLayout,%20V,%20android.view.View,%20int,%20int,%20int[]" target="_blank" rel="external">「CoordinatorLayout.Behavior」</a>)；Stackoverflow 的问答<a href="https://stackoverflow.com/questions/31617398/floatingactionbutton-hide-on-list-scroll" target="_blank" rel="external">「floatingactionbutton-hide-on-list-scroll」</a>；</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="读写外部存储权限（未解决）"><a href="#读写外部存储权限（未解决）" class="headerlink" title="读写外部存储权限（未解决）"></a>读写外部存储权限（未解决）</h3><p>问题描述：一加手机应用权限管理中找不到这两个权限，程序中注册权限时，运行已授予权限后的代码（但没有提示用户授予运行时权限），使用内部文件管理器不可以选取文件（如：图片显示为灰色，不可选取），但使用第三方文件管理器可以选取文件。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      给自己记录下自学 Android 开发中所遇到的问题
+    
+    </summary>
+    
+      <category term="android开发" scheme="http://thirtyyuan.github.io/categories/android%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="综合" scheme="http://thirtyyuan.github.io/tags/%E7%BB%BC%E5%90%88/"/>
+    
+      <category term="踩坑" scheme="http://thirtyyuan.github.io/tags/%E8%B8%A9%E5%9D%91/"/>
+    
+  </entry>
   
   <entry>
     <title>Nice to meet you</title>
