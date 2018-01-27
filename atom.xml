@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thirtyyuan.github.io/"/>
-  <updated>2017-06-02T09:09:37.000Z</updated>
+  <updated>2018-01-27T01:27:32.000Z</updated>
   <id>http://thirtyyuan.github.io/</id>
   
   <author>
@@ -16,11 +16,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>LeetCode Note</title>
+    <link href="http://thirtyyuan.github.io/2018/01/27/LeetCode/"/>
+    <id>http://thirtyyuan.github.io/2018/01/27/LeetCode/</id>
+    <published>2018-01-27T01:10:00.000Z</published>
+    <updated>2018-01-27T01:27:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Just for help me found the solution of Algorithm more fast and make some note. If it’s helpful to you, that’s my pleasure.<a id="more"></a> </p>
+<h2 id="Binary-Tree"><a href="#Binary-Tree" class="headerlink" title="Binary Tree"></a>Binary Tree</h2><h3 id="Flatten-Binary-Tree-to-Linked-List"><a href="#Flatten-Binary-Tree-to-Linked-List" class="headerlink" title="Flatten Binary Tree to Linked List"></a>Flatten Binary Tree to Linked List</h3><h4 id="post-order-traversal"><a href="#post-order-traversal" class="headerlink" title="post-order traversal"></a>post-order traversal</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    </div><div class="line">    TreeNode pre;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatten</span><span class="params">(TreeNode root)</span> </span>&#123;</div><div class="line">        <span class="comment">// write your code here</span></div><div class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        flatten(root.right);</div><div class="line">        flatten(root.left);</div><div class="line">        root.right = pre;</div><div class="line">        root.left = <span class="keyword">null</span>;</div><div class="line">        pre = root;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Just for help me found the solution of Algorithm more fast and make some note. If it’s helpful to you, that’s my pleasure.
+    
+    </summary>
+    
+    
+      <category term="Algorithm" scheme="http://thirtyyuan.github.io/tags/Algorithm/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Android踩坑笔记</title>
     <link href="http://thirtyyuan.github.io/2017/06/02/Android%E8%B8%A9%E5%9D%91%E7%AC%94%E8%AE%B0/"/>
     <id>http://thirtyyuan.github.io/2017/06/02/Android踩坑笔记/</id>
     <published>2017-06-02T08:06:55.000Z</published>
-    <updated>2017-06-02T09:09:37.000Z</updated>
+    <updated>2018-01-13T01:27:55.000Z</updated>
     
     <content type="html"><![CDATA[<pre><code>此篇仅为自己记录下日常开发中所遇到的问题及部分解决方法，若有人能从中受益自然更好。 
 </code></pre><h2 id="adb-系列"><a href="#adb-系列" class="headerlink" title="adb 系列"></a>adb 系列</h2><h3 id="adb-can’t-ack"><a href="#adb-can’t-ack" class="headerlink" title="adb can’t ack"></a>adb can’t ack</h3><p>问题描述：启动 android studio 时报错：“adb can’t ack”：</p>
@@ -52,6 +74,9 @@
 <li>FloatingActionButton 组件属性中添加 <code>app:layout_behavior=&quot;your.packagename.FloatingActionButtonScrollBehavior&quot;</code>,包名部分更改为自己包名即可。</li>
 </ol>
 <p>参考资料：Android 官方文档：<a href="https://developer.android.google.cn/reference/android/support/design/widget/CoordinatorLayout.Behavior.html#onNestedPreScroll(android.support.design.widget.CoordinatorLayout,%20V,%20android.view.View,%20int,%20int,%20int[]" target="_blank" rel="external">「CoordinatorLayout.Behavior」</a>)；Stackoverflow 的问答<a href="https://stackoverflow.com/questions/31617398/floatingactionbutton-hide-on-list-scroll" target="_blank" rel="external">「floatingactionbutton-hide-on-list-scroll」</a>；</p>
+<h3 id="FloatingActionButton-资源引用错误"><a href="#FloatingActionButton-资源引用错误" class="headerlink" title="FloatingActionButton 资源引用错误"></a>FloatingActionButton 资源引用错误</h3><p>问题描述：InflateException: Binary XML file line #0: Binary XML file line #0: Error inflating class android.support.design.widget.FloatingActionButton<br>解决方法：千万注意 XML 文件中一些特性是 app 开头 app:backgroundTint=”@color/colorPrimary”、app:elevation=”8dp”、app:srcCompat=”@drawable/xxx”，其次注意检查 drawable 文件目录后缀，放在最基本的 drawable 包中，不要放在带 v-24 等版本文件中，否则在低版本中找不到</p>
+<h2 id="布局文件"><a href="#布局文件" class="headerlink" title="布局文件"></a>布局文件</h2><h3 id="ViewAnimation-中心点坐标"><a href="#ViewAnimation-中心点坐标" class="headerlink" title="ViewAnimation 中心点坐标"></a>ViewAnimation 中心点坐标</h3><p>问题描述：使用 ViewAnimation 做视图动画时的中心点设置有点特殊，可用百分号值和浮点值，如 “50%（p）”、“0.5（动态设置要加f）”。</p>
+<p>解决方法：其中，百分号值是针对布局元素本身的大小设置，如 50% 正好是布局元素的中点；浮点值则是以布局元素左上角为基准点，移动浮点值个像素值来确定中心点。</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="读写外部存储权限（未解决）"><a href="#读写外部存储权限（未解决）" class="headerlink" title="读写外部存储权限（未解决）"></a>读写外部存储权限（未解决）</h3><p>问题描述：一加手机应用权限管理中找不到这两个权限，程序中注册权限时，运行已授予权限后的代码（但没有提示用户授予运行时权限），使用内部文件管理器不可以选取文件（如：图片显示为灰色，不可选取），但使用第三方文件管理器可以选取文件。</p>
 ]]></content>
     
